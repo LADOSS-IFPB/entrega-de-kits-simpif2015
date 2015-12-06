@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html ng-app="pesquisaSimpif">
+
+	<script type="text/javascript" src="lib/angularjs/angular.js"></script>	
+	
+	<head>
+		<title>Registro de Entrega dos Kits - SIMPIF 2015</title>
+		<meta charset="utf-8" />
+		<link rel="stylesheet" href="css/materialize.css" />
+		<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+			rel="stylesheet">
+		<script type="text/javascript" src="js/app.js"></script>
+		<script type="text/javascript" src="js/controllers/pesquisaCtrl.js"></script>
+		<link rel="stylesheet" type="text/css" href="css/app.css">	
+	</head>
+	
+	<body ng-controller="pesquisaCtrl">
+		<div class="navbar-fixed">
+			<nav class="green darken-3">
+				<div class="nav-wrapper">
+					<a href="#" class="brand-logo center">{{app}}</a>
+				</div>
+			</nav>
+		</div>
+	
+		<div class="page content">
+			<div class="container">
+	
+				<br />
+				<br /> 
+				<a class="left btn-large disabled">
+					<b>Total Recebidos: {{totalReceived}}</b>
+				</a>
+				
+				<a class="right btn-large disabled">
+					<b>Total a serem entregues: {{totalNotReceived}}</b>
+				</a>
+	
+				<div>
+					<input class="input-field" id="searchField" type="text"
+						ng-model="searchCriteria" placeholder="Quem você está buscando?"
+						ng-change="loadParticipants()"> 
+					<br />
+					<br />
+	
+					<table class="bordered striped">
+						<thead>
+							<tr>
+								<th data-field="name"><a href=""
+									ng-click="setOrderCriteria('fullName')">Nome</th>
+								<th data-field="email"><a href=""
+									ng-click="setOrderCriteria('email')">Email</th>
+								<th data-field="type">Tipo de Inscrição</th>
+								<th data-field="price"><a href=""
+									ng-click="changeReceived()">{{receivedTxt}}</th>
+							</tr>
+						</thead>
+	
+						<tr ng-show="searchCriteria"
+							ng-repeat="participant in participants | filter:searchCriteria | orderBy: orderCriteria: orderDirection">
+	
+							<td class="td">{{participant.fullName}}</td>
+							<td class="td">{{participant.email}}</td>
+							<td>{{participant.typeInscription}}</td>
+							<td>
+								<input type="checkbox" class="checkbox" id="isDelivered"
+								ng-model="participant.isDelivered"
+								ng-click="updateParticipant(participant)"
+								ng-disabled="participant.isDelivered" />
+								<label for="isDelivered"></label>
+							</td>	
+						</tr>
+					</table>
+					<hr />
+					
+					</form>
+				</div>
+			</div>
+		</div>
+	
+		<footer class="fixed-bottom page-footer green darken-3">
+			<div class="footer-copyright">
+				<div class="container">
+					<img src="img/ladoss.png" width="150px">
+				</div>
+			</div>
+		</footer>
+	
+		<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+		<script type="text/javascript" src="js/materialize.min.js"></script>
+	</body>
+</html>
