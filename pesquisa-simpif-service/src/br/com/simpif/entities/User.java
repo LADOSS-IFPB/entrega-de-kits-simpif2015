@@ -25,7 +25,7 @@ public class User {
 	
 	@Column(name = "email", unique = true)
 	private String email;
-	
+
 	@Column(name = "is_delivered", insertable = false, updatable = true)
 	private Boolean isDelivered;
 	
