@@ -17,7 +17,7 @@ angular.module("pesquisaSimpif").controller("pesquisaCtrl", function($scope, $ht
 
 		var loadparticipants = function(){
 
-			$http.get("http://localhost:8085/pesquisa-simpif-service/services/get-all").success(function(data){
+			$http.get("http://localhost:8773/pesquisa-simpif-service/services/get-all").success(function(data){
 				$scope.participants = data;
 
 				$scope.totalReceived = $scope.participants.filter(function(element){
@@ -35,7 +35,7 @@ angular.module("pesquisaSimpif").controller("pesquisaCtrl", function($scope, $ht
 			confirmation = window.confirm("Confirma a entrega do kit ao participante " + participant.fullName + " ?");
 
 			if(confirmation === true){
-				$http.post("http://localhost:8085/pesquisa-simpif-service/services/deliver-kit", angular.copy(participant)).success(function(){
+				$http.post("http://localhost:8773/pesquisa-simpif-service/services/deliver-kit", angular.copy(participant)).success(function(){
 					delete $scope.participant;
 					loadparticipants();
 				}).error(function(){
