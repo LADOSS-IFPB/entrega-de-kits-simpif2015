@@ -17,7 +17,7 @@ angular.module("pesquisaSimpif").controller("pesquisaCtrl", function($scope, $ht
 
 		var loadparticipants = function(){
 
-			$http.get("http://localhost:8773/pesquisa-simpif-service/services/get-all").success(function(data){
+			$http.get("http://www.ladoss.com.br:8773/pesquisa-simpif-service/services/get-all").success(function(data){
 				$scope.participants = data;
 
 				$scope.totalReceived = $scope.participants.filter(function(element){
@@ -35,9 +35,10 @@ angular.module("pesquisaSimpif").controller("pesquisaCtrl", function($scope, $ht
 			confirmation = window.confirm("Confirma a entrega do kit ao participante " + participant.fullName + " ?");
 
 			if(confirmation === true){
-				$http.post("http://localhost:8773/pesquisa-simpif-service/services/deliver-kit", angular.copy(participant)).success(function(){
+				$http.post("http://www.ladoss.com.br:8773/pesquisa-simpif-service/services/deliver-kit", angular.copy(participant)).success(function(){
 					delete $scope.participant;
 					loadparticipants();
+					$scope.searchCriteria = "";
 				}).error(function(){
 					participant.isDelivered = false;
 					window.alert("Ocorreu um erro na comunicação com o servidor, favor chamar o suporte.");
@@ -45,7 +46,6 @@ angular.module("pesquisaSimpif").controller("pesquisaCtrl", function($scope, $ht
 			}else{
 				participant.isDelivered = false;
 			}
-			$scope.searchCriteria = "";
 			loadparticipants();
 		}
 
