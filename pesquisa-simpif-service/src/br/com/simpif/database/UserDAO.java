@@ -119,38 +119,36 @@ public class UserDAO {
 		}
 	}
 
-	// public List<User> getNotDelivered(){
-	// Session session = HibernateUtil.getSessionFactory().openSession();
-	// session.beginTransaction();
-	//
-	// Query query = session.createQuery("from User where isDelivered =
-	// :isDelivered");
-	// query.setParameter("isDelivered", false);
-	//
-	// @SuppressWarnings("unchecked")
-	// List<User> list = (List<User>)query.list();
-	//
-	// session.getTransaction().commit();
-	// session.close();
-	//
-	// return list;
-	// }
-	//
-	// public List<User> getDelivered(){
-	// Session session = HibernateUtil.getSessionFactory().openSession();
-	// session.beginTransaction();
-	//
-	// Query query = session.createQuery("from User where isDelivered =
-	// :isDelivered");
-	// query.setParameter("isDelivered", true);
-	//
-	// @SuppressWarnings("unchecked")
-	// List<User> list = (List<User>)query.list();
-	//
-	// session.getTransaction().commit();
-	// session.close();
-	//
-	// return list;
-	// }
-	//
+	public Long countDelivered(boolean status) {
+
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		Long count = new Long(0);
+		
+		try {
+
+			session.beginTransaction();			
+			
+			Query query = session.createQuery("select count(*)"
+					+ " from User u"
+					+ " where u.isDelivered =:isDelivered");
+			
+			query.setParameter("isDelivered", status);
+
+			count = (Long) query.uniqueResult();
+
+			session.getTransaction().commit();
+
+		} catch (HibernateException e) {
+
+			logger.error(e.getMessage());
+			session.getTransaction().rollback();
+			throw e;
+
+		} finally {
+
+			session.close();
+		}
+
+		return count;
+	}	
 }
