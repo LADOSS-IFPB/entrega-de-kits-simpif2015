@@ -1,0 +1,28 @@
+.body{
+	
+}
+
+.jumbotron{
+	width: 85%;
+	text-align: center;
+	margin-right: auto;
+	margin-left: auto;
+	margin-top: 2%;
+	background-color: #90D498;
+}
+
+.table{
+	margin-top: 5%;
+	text-align: left;
+	padding: 2%;
+	white-space: nowrap;
+	background-color: 
+}
+
+.form-control{
+	margin-bottom: 1%;
+}
+
+.negrito{
+	font-weight: bold;
+}
