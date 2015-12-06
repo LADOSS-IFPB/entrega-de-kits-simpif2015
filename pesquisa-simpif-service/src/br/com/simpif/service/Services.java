@@ -64,6 +64,19 @@ public class Services {
 
 		return builder.build();
 	}
+	
+	@POST
+	@Path("/get-byname")
+	@Consumes("application/json")
+	@Produces("application/json")
+	public List<User> findUserByName(User user){
+		
+		String fullName = user.getFullName().trim().toUpperCase();
+		
+		List<User> users = UserDAO.getInstance().getByName(fullName);
+
+		return users;		
+	}
 
 	// @GET
 	// @Path("/get-delivered")

@@ -68,6 +68,34 @@ public class UserDAO {
 
 		return users;
 	}
+	
+	@SuppressWarnings("unchecked")
+	public List<User> getByName(String fullName) {
+
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		List<User> users = null;
+
+		try {
+			
+			session.beginTransaction();
+			Query query = session.createQuery("from User u where u.fullName like :fullName");
+			query.setParameter("fullName", "%" + fullName + "%");
+			
+			users = query.list();
+			session.getTransaction().commit();
+
+		} catch (HibernateException e) {
+			
+			logger.error(e.getMessage());
+			session.getTransaction().rollback();
+			
+		} finally {
+			
+			session.close();
+		}
+
+		return users;
+	}
 
 	public void insert(User user) throws HibernateException {
 		
