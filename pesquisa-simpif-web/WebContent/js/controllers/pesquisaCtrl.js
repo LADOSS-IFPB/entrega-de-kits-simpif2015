@@ -30,8 +30,8 @@ angular.module("pesquisaSimpif").controller("pesquisaCtrl", function($scope, $ht
 			
 	        var value = document.getElementById('searchField').value;
 	        var msgdata = {
-	        		'fullName' : value
-	            };
+	        			'fullName' : value
+	        		};
 	        var res = $http.post('http://localhost:8080/pesquisa-simpif-service/services/get-byname', msgdata);
 	        res.success(function(data, status, headers, config) {
 	        	$scope.participants = data;
