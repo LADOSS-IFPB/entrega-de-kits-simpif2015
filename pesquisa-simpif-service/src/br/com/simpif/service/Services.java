@@ -10,6 +10,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.hibernate.HibernateException;
 
 import br.com.simpif.database.UserDAO;
@@ -20,6 +22,8 @@ import br.com.simpif.entities.User;
 @Path("/services")
 public class Services {
 
+	private static Logger logger = LogManager.getLogger(Services.class);
+	
 	@POST
 	@Path("/deliver-kit")
 	@Consumes("application/json")
@@ -72,10 +76,13 @@ public class Services {
 	@Produces("application/json")
 	public List<User> findUserByName(User user){
 		
+		logger.info("/get-byname: " + user.getFullName());
+		
 		String fullName = user.getFullName().trim().toUpperCase();
 		
 		List<User> users = UserDAO.getInstance().getByName(fullName);
-
+		logger.info("Participants: " + users.size() + "[" + users + "]");
+		
 		return users;		
 	}
 	

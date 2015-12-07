@@ -37,9 +37,12 @@
 				</a>
 	
 				<div>
-					<input class="input-field" id="searchField" type="text"
-						ng-model="searchCriteria" placeholder="Quem você está buscando?"
-						ng-change="loadParticipants()"> 
+					<input id="searchField" 
+						type="text" 
+						placeholder="Quem você está buscando?"
+						class="input-field" 						
+						ng-model="searchCriteria" 
+						ng-keypress="searchParticipantByFullName($event)"> 
 					<br />
 					<br />
 	
@@ -72,8 +75,6 @@
 						</tr>
 					</table>
 					<hr />
-					
-					</form>
 				</div>
 			</div>
 		</div>

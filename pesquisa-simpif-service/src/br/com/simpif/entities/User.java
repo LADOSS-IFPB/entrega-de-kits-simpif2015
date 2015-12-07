@@ -76,4 +76,9 @@ public class User {
 	public void setTypeInscription(String typeInscription) {
 		this.typeInscription = typeInscription;
 	}	
+	
+	@Override
+	public String toString() {
+		return "user [nome: " + this.fullName + ", email:" + this.email + "]";
+	}
 }
