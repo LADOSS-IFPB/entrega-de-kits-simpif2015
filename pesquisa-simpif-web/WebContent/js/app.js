@@ -1,1 +1,1 @@
-angular.module("pesquisaSimpif", []);
+angular.module("pesquisaSimpif", ['angular-loading-bar'])

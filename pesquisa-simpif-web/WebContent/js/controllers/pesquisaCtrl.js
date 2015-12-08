@@ -1,28 +1,33 @@
-angular.module("pesquisaSimpif").controller("pesquisaCtrl", function($scope, $http, $filter){
+angular.module("pesquisaSimpif").controller("pesquisaCtrl", function($scope, $http, $filter, cfpLoadingBar){
+		var SERVICE_URL = "http://localhost:8080/pesquisa-simpif-service";
 		
 		$scope.app = "Entrega de Kits SIMPIF";
 		$scope.participants = [];
 		$scope.receivedTxt = "Recebido";
 		$scope.receivedBool = false;
-
+		
 		$scope.changeReceived = function(){
 			$scope.receivedBool = !$scope.receivedBool;
 		}
 
-		var loadparticipants = function(){
-
-			$http.get("http://localhost:8080/pesquisa-simpif-service/services/get-all").success(function(data){
-				$scope.participants = data;
-
-				$scope.totalReceived = $scope.participants.filter(function(element){
-						return element.isDelivered;
-					}).length;
-				$scope.totalNotReceived = $scope.participants.filter(function(element){
-						return !element.isDelivered;
-					}).length;
+		var updateCounters = function(){
+			var data = $http.get(SERVICE_URL + "/services/get-status").success(function(data){
+				$scope.totalReceived = data.delivered;
+				$scope.totalNotReceived = data.notDelivered;
 				
 			}).error(function(data, status){
-				$scope.message = "Aconteceu um problema: " + data;
+				window.alert("Ocorreu um erro na comunicação com o servidor, favor chamar o suporte.");
+			});
+			
+		}
+		
+		var loadparticipants = function(){
+
+			$http.get(SERVICE_URL + "/services/get-all").success(function(data){
+				$scope.participants = data;
+				
+			}).error(function(data, status){
+				window.alert("Ocorreu um erro na comunicação com o servidor, favor chamar o suporte.");
 			});
 		};
 		
@@ -32,10 +37,11 @@ angular.module("pesquisaSimpif").controller("pesquisaCtrl", function($scope, $ht
 	        var msgdata = {
 	        			'fullName' : value
 	        		};
-	        var res = $http.post('http://localhost:8080/pesquisa-simpif-service/services/get-byname', msgdata);
+	        var res = $http.post(SERVICE_URL + '/services/get-byname', msgdata);
 	        res.success(function(data, status, headers, config) {
 	        	$scope.participants = data;
-	        });			
+	        });
+	        updateCounters();
 		};
 
 		$scope.updateParticipant = function(participant){
@@ -44,7 +50,7 @@ angular.module("pesquisaSimpif").controller("pesquisaCtrl", function($scope, $ht
 					+ participant.fullName + " ?");
 
 			if(confirmation === true){
-				$http.post("http://localhost:8080/pesquisa-simpif-service/services/deliver-kit", angular.copy(participant)).success(function(){
+				$http.post(SERVICE_URL + "/services/deliver-kit", angular.copy(participant)).success(function(){
 					delete $scope.participant;
 					$scope.searchCriteria = "";
 				}).error(function(){
@@ -54,10 +60,14 @@ angular.module("pesquisaSimpif").controller("pesquisaCtrl", function($scope, $ht
 			}else{
 				participant.isDelivered = false;
 			}
+			updateCounters();
 		}
 
 		$scope.setOrderCriteria = function(campo){
 			$scope.orderCriteria = campo;
 			$scope.orderDirection = !$scope.orderDirection;
 		};
+		
+		updateCounters();
+		
 	});

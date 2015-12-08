@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html ng-app="pesquisaSimpif">
 
+ 
 	<script type="text/javascript" src="lib/angularjs/angular.js"></script>	
 	
 	<head>
@@ -12,6 +13,8 @@
 		<script type="text/javascript" src="js/app.js"></script>
 		<script type="text/javascript" src="js/controllers/pesquisaCtrl.js"></script>
 		<link rel="stylesheet" type="text/css" href="css/app.css">	
+		 <link rel='stylesheet' href='css/loading-bar.css' type='text/css' media='all' />
+		 <script type='text/javascript' src='js/loading-bar.js'></script>
 	</head>
 	
 	<body ng-controller="pesquisaCtrl">
@@ -54,8 +57,7 @@
 								<th data-field="email"><a href=""
 									ng-click="setOrderCriteria('email')">Email</th>
 								<th data-field="type">Tipo de Inscrição</th>
-								<th data-field="price"><a href=""
-									ng-click="changeReceived()">{{receivedTxt}}</th>
+								<th data-field="price">{{receivedTxt}}</th>
 							</tr>
 						</thead>
 	
