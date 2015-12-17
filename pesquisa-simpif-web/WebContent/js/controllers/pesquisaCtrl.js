@@ -1,7 +1,8 @@
 angular.module("pesquisaSimpif").controller("pesquisaCtrl", function($scope, $http, $filter, cfpLoadingBar){
 		var SERVICE_URL = "http://localhost:8080/pesquisa-simpif-service";
+		var TAM_MIN_BUSCA = 3;
 		
-		$scope.app = "Entrega de Kits SIMPIF";
+		$scope.app = "Entrega de Kits Sintif/Simpif";
 		$scope.participants = [];
 		$scope.receivedTxt = "Recebido";
 		$scope.receivedBool = false;
@@ -33,15 +34,18 @@ angular.module("pesquisaSimpif").controller("pesquisaCtrl", function($scope, $ht
 		
 		$scope.searchParticipantByFullName = function(event){
 			
-	        var value = document.getElementById('searchField').value;
-	        var msgdata = {
+	        var value = document.getElementById('searchField').value;      
+	        
+	        if (value.length >= TAM_MIN_BUSCA) {
+	        	var msgdata = {
 	        			'fullName' : value
 	        		};
-	        var res = $http.post(SERVICE_URL + '/services/get-byname', msgdata);
-	        res.success(function(data, status, headers, config) {
-	        	$scope.participants = data;
-	        });
-	        updateCounters();
+		        var res = $http.post(SERVICE_URL + '/services/get-byname', msgdata);
+		        res.success(function(data, status, headers, config) {
+		        	$scope.participants = data;
+		        });
+		        updateCounters();
+	        }        
 		};
 
 		$scope.updateParticipant = function(participant){

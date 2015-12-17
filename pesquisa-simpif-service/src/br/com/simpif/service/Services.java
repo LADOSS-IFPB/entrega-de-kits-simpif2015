@@ -53,16 +53,19 @@ public class Services {
 	@Produces("application/json")
 	public Response insertUser(User user) {
 		
+		logger.info("/register: " + user);		
 		ResponseBuilder builder;
 		
 		try {
 			
 			UserDAO.getInstance().insert(user);
-			builder = Response.status(Response.Status.CREATED);
+			builder = Response.status(Response.Status.CREATED);			
 			
-		} catch (HibernateException hexp) {
+		} catch (HibernateException hexp) {			
 			
 			Erro erro = new Erro(1, "Problema na inserção do participante");
+			logger.error(erro);
+			
 			builder = Response.status(Response.Status.INTERNAL_SERVER_ERROR)
 					.entity(erro);
 		}
@@ -89,8 +92,8 @@ public class Services {
 	@GET
 	@Path("/get-status")
 	@Produces("application/json")
-	public Response getNotDelivered(){
-	
+	public Response getStatus(){
+		
 		Long delivered = UserDAO.getInstance().countDelivered(true);
 		Long notDelivered = UserDAO.getInstance().countDelivered(false);
 
@@ -100,6 +103,8 @@ public class Services {
 		ResponseBuilder builder = Response.status(Response.Status.OK)
 				.entity(statusDelivery);
 
+		logger.info("/get-status: " + statusDelivery);
+		
 		return builder.build();
 	}
 }

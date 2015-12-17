@@ -32,4 +32,11 @@ public class StatusDelivery {
 	public void setNotDelivered(long notDelivered) {
 		this.notDelivered = notDelivered;
 	}
+	
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return "Status [delivered: " + this.delivered + ", notDelivered: " 
+				+ notDelivered +"]";
+	}
 }
